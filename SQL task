@@ -1,0 +1,81 @@
+TASK1
+
+CREATE TABLE Person (PersonId int, FirstName varchar(255), LastName varchar(255));
+CREATE TABLE Address (AddressId int, PersonId int, City varchar(255), State varchar(255));
+INSERT INTO Person (PersonId, FirstName, LastName) VALUES (1,'Wang', 'Allen');
+INSERT INTO Address (AddressId, PersonId, City, State) VALUES (1, 2, 'New York City', 'New York');
+
+SELECT FirstName, LastName, City, State
+FROM Person
+LEFT JOIN Address
+ON Person.PersonId = Address.PersonId;
+
+TASK 2
+
+CREATE TABLE IF NOT EXISTS Employee (Id int, Salary int);
+INSERT INTO Employee (Id, Salary) VALUES (1, 100);
+INSERT INTO Employee (Id, Salary) VALUES (2, 200);
+INSERT INTO Employee (Id, Salary) VALUES (3, 300);
+
+SELECT MAX (salary) FROM Employee
+WHERE salary < (SELECT
+                MAX (salary)
+                FROM Employee);
+
+
+TASK 3
+
+CREATE TABLE IF NOT EXISTS Employee ( Id int, Name VARCHAR(255), Salary int, ManagerId int);
+INSERT INTO Employee (Id, Name, Salary, ManagerId) VALUES (1, 'Joe', 70000, 3);
+INSERT INTO Employee (Id, Name, Salary, ManagerId) VALUES (2, 'Henry', 80000, 4);
+INSERT INTO Employee (Id, Name, Salary, ManagerId) VALUES (3, 'Sam', 60000, NULL);
+INSERT INTO Employee (Id, Name, Salary, ManagerId) VALUES (4, 'Max', 90000, NULL);
+
+SELECT B.name
+FROM Employee A, Employee B
+WHERE a.Id = B.ManagerId
+AND A.salary < B.salary;
+
+
+TASK4
+
+CREATE TABLE IF NOT EXISTS Person (Id int, Email VARCHAR(255));
+INSERT INTO Person (Id, Email) VALUES (1, 'a@b.com');
+INSERT INTO Person (Id, Email) VALUES (2, 'c@b.com');
+INSERT INTO Person (Id, Email) VALUES (3, 'a@b.com');
+
+SELECT Email FROM Person
+GROUP BY Email
+HAVING COUNT(*) > 1;
+
+TASK5
+
+CREATE TABLE IF NOT EXISTS Customers (Id int, Name VARCHAR(255));
+CREATE TABLE IF NOT EXISTS Orders (Id int, CustomerId int);
+INSERT INTO Customers (Id, Name) VALUES (1, 'Joe');
+INSERT INTO Customers (Id, Name) VALUES (2, 'Henry');
+INSERT INTO Customers (Id, Name) VALUES (3, 'Sam');
+INSERT INTO Customers (Id, Name) VALUES (4, 'Max');
+INSERT INTO Orders (Id, CustomerId) VALUES (1,3);
+INSERT INTO Orders (Id, CustomerId) VALUES (2,1);
+
+SELECT Name 
+FROM Customers
+WHERE Id NOT IN (SELECT CustomerId FROM Orders);
+
+TASK6
+
+CREATE TABLE IF NOT EXISTS courses (student VARCHAR(255), class VARCHAR(255));
+INSERT INTO courses (student, class) VALUES ('A', 'Math');
+INSERT INTO courses (student, class) VALUES ('B', 'English');
+INSERT INTO courses (student, class) VALUES ('C', 'Math');
+INSERT INTO courses (student, class) VALUES ('D', 'Biology');
+INSERT INTO courses (student, class) VALUES ('E', 'Math');
+INSERT INTO courses (student, class) VALUES ('F', 'Computer');
+INSERT INTO courses (student, class) VALUES ('G', 'Math');
+INSERT INTO courses (student, class) VALUES ('H', 'Math');
+INSERT INTO courses (student, class) VALUES ('I', 'Math');
+
+SELECT class FROM courses
+GROUP BY class
+HAVING COUNT(*) >= 5;
